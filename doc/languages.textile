@@ -597,3 +597,79 @@ Supports the following options:
 | @:fork@         | Run the tests on a new java vm. (enabled unless running on JRuby) |
 | @:properties@   | Hash of system properties available to the test case. (only when fork is enabled) |
 | @:java_args@    | Arguments passed as is to the JVM. (only when fork is enabled) |
+
+h2(#clojure). Clojure
+
+Before using Clojure, you must first require it in your buildfile:
+
+{% highlight ruby %}
+require 'buildr/clojure'
+{% endhighlight %}
+
+By default, Buildr will attempt to use the latest stable release of Clojure, which is currently Clojure 1.1.0.  You can configure a specific version of Clojure for your project by setting the Clojure artifact specification:
+
+{% highlight ruby %}
+options.clojure.spec = "org.clojure:clojure:jar:1.1.0"
+{% endhighlight %}
+
+Buildr will download Clojure if necessary.
+
+h3. Compiling Clojure
+
+Once loaded, the Clojure ahead of time (AOT) compiler will be automatically selected if any @.clj@ source files are found under @src/main/clojure@ directory, compiling them by default into the @target/classes@ directory.
+
+If the project has Java, Scala, or Groovy sources in @src/main/@ they will get compiled using the standard compilers.
+
+Sources found in @src/test/clojure@ are not compiled using the AOT compiler.  Instead all Clojure test sources are loaded as needed.
+
+h3. Testing with Clojure
+
+Buildr will look for test source fies in @src/test/clojure@ and assume that all of these files contain Clojure unit tests.  Each file is executed using the standard @clojure.test/run-tests@ function.
+
+h3. Clojure shell and repl
+
+A Clojure repl that includes the proper classpath can be started using:
+
+{% highlight sh %}
+$ buildr shell
+{% endhighlight %}
+
+The repl using JLine for all console input.  Jline is similar to GNU readline and features command history and simple line editing.
+
+h3. Swank
+
+Swank is a server program designed to connect to an Emacs session.
+
+{% highlight sh %}
+$ buildr clojure-swank
+{% endhighlight %}
+
+Emacs users can use "SLIME":http://common-lisp.net/project/slime/ to connect to a running Swank session.  The port and host used by Swank are configured using the options described below.
+
+h3. File and namespace conventions
+
+Buildr uses the source file path name to determine the Clojure namespace that is defined within the file.  Path names should match the namespace, with the exception that any underscore @'_'@ characters are assumed to be hyphen @'-'@ characters.
+
+For example the source file with the path @foo/bar/my_dog.clj@ is assumed to create the namespace @foo.bar.my-dog@
+
+h3. Clojure options
+
+The Clojure integration supports the following options:
+
+|_. Option        |_. Usage |_. Default |
+| @spec@            | The artifact spec for Clojure                       | org.clojure:clojure:jar:1.1.0 |
+| @jline_spec@      | The artifact spec for JLine                         | jline:jline:jar:0.9.94 |
+| @swank_spec@      | The artifact spec for Swank                         | swank-clojure:swank-clojure:jar:1.2.1 |
+| @swank_port@      | The port to use when running swank                  | 4005 |
+| @swank_host@      | The host to use when running swank                  | localhost |
+| @package_sources@ | Should the .clj sources be included when packaging? | true |
+
+All these options may be set using
+
+{% highlight ruby %}
+options.clojure.OPTION_NAME = VALUE
+{% endhighlight %}
+
+
+
+

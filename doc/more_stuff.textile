@@ -5,7 +5,7 @@ title: More Stuff
 
 h2(#shell).  Interactive Shells (REPLs)
 
-Many languages (including Scala and Groovy) provide an interactive shell tool which allows developers to run arbitrary expressions and see the results immediately:
+Many languages (including Scala, Groovy, and Clojure) provide an interactive shell tool which allows developers to run arbitrary expressions and see the results immediately:
 
 <pre>$ scala
 Welcome to Scala version 2.7.4.final (Java HotSpot(TM) 64-Bit Server VM, Java 1.6.0_03-p3).
@@ -19,7 +19,7 @@ scala> </pre>
 
 These tools are alternatively known as "REPLs" (Read, Eval, Print Loop), a term which originally comes from Lisp.  This sort of interactive shell can be an invaluable asset when developing frameworks or other non-UI-oriented modules.  A common use-case is running a quick, manual test to make sure that the framework is functioning properly.  It is faster and easier to do this in a shell, and also averts the need for extra test cases to be developed just to check simple things during development.
 
-Unfortunately, for such a tool to be useful in Java, Scala or Groovy development, it must have access to the @CLASSPATH@, not only the compiled project binaries, but also its full list of dependencies.  While it is usually possible with such tools to specify the classpath upon startup (e.g. the @-cp@ switch for the Scala shell), this can get extremely tedious for project's with more dependencies, especially when some of these dependencies are defined using @transitive@ artifacts.
+Unfortunately, for such a tool to be useful in Java, Scala, Groovy, or Clojure development, it must have access to the @CLASSPATH@, not only the compiled project binaries, but also its full list of dependencies.  While it is usually possible with such tools to specify the classpath upon startup (e.g. the @-cp@ switch for the Scala shell), this can get extremely tedious for project's with more dependencies, especially when some of these dependencies are defined using @transitive@ artifacts.
 
 Buildr is capable of easing this workflow by providing full support for the configuration and launch of interactive shells, the relevant shell may be launched simply by invoking the @shell@ task:
 
@@ -71,12 +71,12 @@ Buildr supports several different shell providers, and the framework is flexible
 
 |_. Shell Name        |_. Descriptor       |_. Language       |
 | BeanShell Console   | @:bsh@             | Java             |
-| Clojure REPL        | @:clj@             | *N/A*            |
+| Clojure REPL        | @:clj@             | Clojure          |
 | GroovySH            | @:groovysh@        | Groovy           |
 | JRuby IRB           | @:jirb@            | *N/A*            |
 | Scala Interpreter   | @:scala@           | Scala            |
 
-Note that some of these shells impose certain requirements to enable use.  The Groovy shell requires the @GROOVY_HOME@ environment variable to point to the Groovy install path.  The Clojure REPL makes a similar requirement of @CLOJURE_HOME@.  The JRuby and Scala shells will use @JRUBY_HOME@ and @SCALA_HOME@ respectively if they are defined.  However, if these environment variables are not defined, the relevant JAR files will be automatically downloaded from the appropriate Maven2 repository.
+Note that some of these shells impose certain requirements to enable use.  The Groovy shell requires the @GROOVY_HOME@ environment variable to point to the Groovy install path.  See the Clojure shell documentation in "Languages":languages.html#clojure for the Clojure requirements.   The JRuby and Scala shells will use @JRUBY_HOME@ and @SCALA_HOME@ respectively if they are defined.  However, if these environment variables are not defined, the relevant JAR files will be automatically downloaded from the appropriate Maven2 repository.
 
 h3. JavaRebel Integration
 
