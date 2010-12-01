@@ -45,7 +45,11 @@ module Buildr
         end
 
         puts "Starting Clojure repl"
-        Java::Commands.java 'jline.ConsoleRunner', 'clojure.main', :classpath => cp
+        if project.options.clojure.jline_spec.empty?
+          Java::Commands.java 'clojure.main', :classpath => cp
+        else
+          Java::Commands.java 'jline.ConsoleRunner', 'clojure.main', :classpath => cp
+        end
       end
 
     end
