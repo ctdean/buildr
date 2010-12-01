@@ -31,14 +31,13 @@ module Buildr
 
       def clojure_swank( port = options.clojure.swank_port,
                          host = options.clojure.swank_host )
-        cp = project.compile.dependencies + [
-                                             project.path_to(:src, :main, :clojure),
-                                             options.clojure.spec,
-                                             options.clojure.swank_spec,
-                                            ]
+        cp = [project.path_to(:src, :main, :clojure)]
+        cp += project.resources.sources
         if build?
           cp += [project.path_to(:target, :classes)]
         end
+        cp += [options.clojure.spec, options.clojure.swank_spec]
+        cp += project.compile.dependencies
         puts "Starting Clojure swank on #{host}:#{port}"
         Java::Commands.java "clojure.main",
                 "--eval", "(require (quote swank.swank))",
